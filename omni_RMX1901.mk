@@ -3,10 +3,13 @@ PRODUCT_RELEASE_NAME := RMX1901
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/embedded.mk)
+
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
 
 # For PBRP
 $(call inherit-product, vendor/pb/config/common.mk)
+
+PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,$(LOCAL_PATH)/recovery/root,recovery/root)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := RMX1901
@@ -25,6 +28,3 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=RMX1901 \
     BUILD_PRODUCT=RMX1901 \
     TARGET_DEVICE=RMX1901
-
-PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
-    ro.product.device

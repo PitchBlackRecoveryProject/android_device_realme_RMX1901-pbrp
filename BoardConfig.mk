@@ -30,6 +30,8 @@ TARGET_BOOTLOADER_BOARD_NAME := sdm710
 TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 
+BUILD_BROKEN_DUP_RULES := true
+
 ##########
 # Kernel #
 ##########
@@ -118,8 +120,9 @@ TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 
 #Init
-TARGET_INIT_VENDOR_LIB := libinit_realmex
+TARGET_INIT_VENDOR_LIB := //$(LOCAL_PATH):libinit_realmex
 TARGET_RECOVERY_DEVICE_MODULES := libinit_realmex
+TARGET_PLATFORM_DEVICE_BASE := /devices/soc/
 
 ########
 # TWRP #

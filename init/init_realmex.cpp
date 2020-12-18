@@ -1,6 +1,6 @@
 /*
-   Copyright (C) 2017-2018 The Android Open Source Project
-
+   Copyright (c) 2015, The Linux Foundation. All rights reserved.
+   Copyright (C) 2020 The OmniRom Project.
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
    met:
@@ -13,7 +13,6 @@
     * Neither the name of The Linux Foundation nor the names of its
       contributors may be used to endorse or promote products derived
       from this software without specific prior written permission.
-
    THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
@@ -34,22 +33,40 @@
 #include <android-base/properties.h>
 
 #include "property_service.h"
-#include "log.h"
 #include <string>
 #include <fstream>
+
+#include <sys/resource.h>
+#define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
+#include <sys/_system_properties.h>
 
 using namespace std;
 
 namespace android {
 namespace init {
 
-void load_CN() {
-    property_set("ro.product.device", "RMX1901CN");
+void property_override(const std::string& name, const std::string& value)
+{
+    size_t valuelen = value.size();
+
+    prop_info* pi = (prop_info*) __system_property_find(name.c_str());
+    if (pi != nullptr) {
+        __system_property_update(pi, value.c_str(), valuelen);
+    }
+    else {
+        int rc = __system_property_add(name.c_str(), name.size(), value.c_str(), valuelen);
+        if (rc < 0) {
+            LOG(ERROR) << "property_set(\"" << name << "\", \"" << value << "\") failed: "
+                       << "__system_property_add failed";
+        }
+    }
 }
 
-void load_IN() {
-    property_set("ro.product.device", "RMX1901");
+void model_property_override(const std::string& device)
+{
+    property_override("ro.product.device", device);
 }
+
 
 void vendor_load_properties() {
     const char* path = "/proc/partitions";
@@ -60,12 +77,12 @@ void vendor_load_properties() {
 		if (line.find("sda11") != string::npos)
 		{
 			if (line.substr(17, 7) == "5091328") {
-				load_CN();
+				model_property_override("RMX1901CN");
                 break;
 			}
 			else
 			{
-				load_IN();
+				model_property_override("RMX1901");
                 break;
 			}
 		}
