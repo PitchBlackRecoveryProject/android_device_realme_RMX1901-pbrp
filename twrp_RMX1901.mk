@@ -6,15 +6,15 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
 
-# For PBRP
-$(call inherit-product, vendor/pb/config/common.mk)
+# For TWRP
+$(call inherit-product, vendor/twrp/config/common.mk)
 
 PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,$(LOCAL_PATH)/recovery/root,recovery/root) \
 	$(LOCAL_PATH)/prebuilt/dtb:dtb.img
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := RMX1901
-PRODUCT_NAME := omni_RMX1901
+PRODUCT_NAME := twrp_RMX1901
 PRODUCT_BRAND := Realme
 PRODUCT_MODEL := Realme X
 PRODUCT_MANUFACTURER := Realme
