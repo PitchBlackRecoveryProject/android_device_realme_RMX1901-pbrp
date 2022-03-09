@@ -17,8 +17,7 @@
 #
 
 # Release name
-PRODUCT_RELEASE_NAME := OP6xT
-DEVICE_PATH := device/oneplus/OP6xT
+PRODUCT_RELEASE_NAME := RMX1901
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
@@ -27,16 +26,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, vendor/pb/config/common.mk)
 
 # Inherit from hardware-specific part of the product configuration
-$(call inherit-product, device/oneplus/OP6xT/device.mk)
+$(call inherit-product, device/realme/RMX1901/device.mk)
 
 PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*,$(LOCAL_PATH)/recovery/root,recovery/root)
 
 ## Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := OP6xT
-PRODUCT_NAME := omni_OP6xT
-PRODUCT_BRAND := OnePlus
-PRODUCT_MODEL := SDM845
-PRODUCT_MANUFACTURER := OnePlus
+PRODUCT_DEVICE := RMX1901
+PRODUCT_NAME := omni_RMX1901
+PRODUCT_BRAND := Realme
+PRODUCT_MODEL := X
+PRODUCT_MANUFACTURER := Realme
 
 # HACK: Set vendor patch level
 PRODUCT_PROPERTY_OVERRIDES += \
